@@ -20,6 +20,7 @@ Git clone git@github.com:Glo92/phase-1-project.git
 ```
 
 # Live Link
+https://glo92.github.io/phase-1-project/
 
 
 ## Technologies used

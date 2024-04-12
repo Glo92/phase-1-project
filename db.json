@@ -1,0 +1,39 @@
+{ 
+    "Tasks": [
+        {
+          "id": "1",
+          "content": "Go to the farm",
+          "completed": true
+        },
+        {
+          "id": "2",
+          "content": "Do assignments",
+          "completed": false
+        },
+        {
+          "id": "3",
+          "content": "watch a movie",
+          "completed": false
+        },
+        {
+          "id": "4",
+          "content": "go shopping",
+          "completed": false
+        },
+        {
+          "id": "5",
+          "content": "bake cake",
+          "completed": false
+        },
+        {
+          "id": "6",
+          "content": "Cook",
+          "completed": true
+        },
+        {
+          "id": "7",
+          "content": "take a power nap",
+          "completed": true
+        }
+      ]
+}

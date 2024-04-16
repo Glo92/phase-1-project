@@ -5,7 +5,7 @@
 #### By *Gloria Wekura*
 
 ## Description
-This is an app the the user is able to input the tasks that he/ she is required to complete and once they are done the can mark as done,or delete them 
+This is an app the the user is able to input the tasks that he/ she is required to complete and once they are done they can delete them 
 
 ## Installation
 You use git clone to be able to download the app in site Github

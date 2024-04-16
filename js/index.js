@@ -52,18 +52,5 @@ function uploadTasks() {
     listContainer.innerHTML = localStorage.getItem('data')
 }
 uploadTasks()
-//mark tasks as completed
-function completed() {
-    listContainer.addEventListener('click', (e) => {
-        if(e.target.tagName === 'li') {
-            e.target.classList.toggle('checked')
-        } 
-
-        
-
-    })
-}
-completed()
-
 
 })

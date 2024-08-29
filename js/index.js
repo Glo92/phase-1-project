@@ -1,69 +1,100 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-// fetch tasks
-fetch('http://localhost:3000/Tasks')
-.then((data) => data.json())
-.then(data => console.log( data))
+    const input = document.getElementById('inputItem');
+    const addButton = document.getElementById('addbtn');
+    const listContainer = document.getElementById('list-container');
+    const prioritySelect = document.getElementById('priority');
 
-const input = document.getElementById('inputItem')
-const addButton = document.getElementById('addbtn')
-const listContainer = document.getElementById('list-container')
+    function addTask() {
+        if (input.value !== "") {
+            const priority = prioritySelect.value;
+            const taskText = input.value;
 
-//make the add button work
-function button() {
-addButton.addEventListener('click', () => {
-    if(input.value !== "") {
-        //create li element
-        const list = input.value
-        const li = document.createElement('li')
-        li.innerHTML = `
-          ${list}
-        <button class="delete">Delete</button>
-        `
-       
-        //append the li 
-        listContainer.appendChild(li)
-        input.value = ""
-        saveTasks()
-        
-        
-    }
-})
-}
-button()
-//anabling the delete button to delete tasks
-function tasklist() {
-    document.addEventListener('click', (e) => {
-        if(e.target.classList.contains('delete')) {
-            const del = e.target.parentElement
-            listContainer.removeChild(del)
-            saveTasks()
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${taskText}</span> <span class="priority-${priority.toLowerCase()}">[${priority}]</span>
+                <div class="button-container">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+
+            // Append the li 
+            listContainer.appendChild(li);
+            input.value = "";
+            saveTasks();
         }
+    }
 
-    })
-}
-tasklist()
-//save task to the storagw
-function saveTasks() {
-    localStorage.setItem('data',listContainer.innerHTML)
-}
-//upload in the storage
-function uploadTasks() {
-    listContainer.innerHTML = localStorage.getItem('data')
-}
-uploadTasks()
-//mark tasks as completed
-function completed() {
-    listContainer.addEventListener('click', (e) => {
-        if(e.target.tagName === 'li') {
-            e.target.classList.toggle('checked')
-        } 
+    addButton.addEventListener('click', addTask);
 
-        
+    // Handle Enter key press to add task
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent form submission if inside a form
+            addTask();
+        }
+    });
 
-    })
-}
-completed()
+    function handleTaskActions(event) {
+        const target = event.target;
 
+        if (target.classList.contains('delete') || target.closest('.delete')) {
+            const taskItem = target.closest('li');
+            listContainer.removeChild(taskItem);
+            saveTasks();
+        } else if (target.classList.contains('edit') || target.closest('.edit')) {
+            const taskItem = target.closest('li');
+            const taskText = taskItem.querySelector('span').textContent.trim();
+            const priority = taskItem.querySelector('span').nextElementSibling.textContent.replace('[', '').replace(']', '');
+            
+            input.value = taskText;
+            prioritySelect.value = priority;
+            listContainer.removeChild(taskItem);
+            saveTasks();
+        }
+    }
 
-})
+    document.addEventListener('click', handleTaskActions);
+
+    function markTaskAsDone(event) {
+        if (event.target.tagName === 'SPAN' || event.target.closest('span')) {
+            const taskItem = event.target.closest('li');
+            taskItem.classList.toggle('done');
+            saveTasks();
+        }
+    }
+
+    listContainer.addEventListener('dblclick', markTaskAsDone);
+
+    function saveTasks() {
+        const tasks = [];
+        listContainer.querySelectorAll('li').forEach(li => {
+            const taskText = li.querySelector('span').textContent.trim();
+            const priority = li.querySelector('span').nextElementSibling.textContent.replace('[', '').replace(']', '');
+            const done = li.classList.contains('done'); // Check if task is marked as done
+            tasks.push({ taskText, priority, done });
+        });
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.forEach(task => {
+            const { taskText, priority, done } = task;
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${taskText}</span> <span class="priority-${priority.toLowerCase()}">[${priority}]</span>
+                <div class="button-container">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+            if (done) {
+                li.classList.add('done');
+            }
+            listContainer.appendChild(li);
+        });
+    }
+    loadTasks();
+});

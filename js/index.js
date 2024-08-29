@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('inputItem');
     const addButton = document.getElementById('addbtn');

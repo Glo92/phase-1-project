@@ -5,7 +5,7 @@
 #### By *Gloria Wekura*
 
 ## Description
-This is an app the the user is able to input the tasks that he/ she is required to complete and once they are done the can mark as done,or delete them 
+This is an app the the user is able to input the tasks that he/ she is required to complete and once they are done they can double click to mark as done or delete them. They can also edit the tasks.
 
 ## Installation
 You use git clone to be able to download the app in site Github
@@ -20,6 +20,7 @@ Git clone git@github.com:Glo92/phase-1-project.git
 ```
 
 # Live Link
+https://glo92.github.io/phase-1-project/
 
 
 ## Technologies used
